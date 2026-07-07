@@ -20,14 +20,9 @@
 
   *{ box-sizing: border-box; }
 
-  html, body{
-    height:100%;
-  }
-
   body{
     margin:0;
     min-height:100vh;
-    min-height:100dvh;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -38,38 +33,23 @@
     font-family:'Quicksand', sans-serif;
     color:var(--plum);
     overflow-x:hidden;
-    padding: 0;
+    padding: 24px;
   }
 
   .stage{
     position:relative;
     width:100%;
-    height:100%;
-    min-height:100vh;
-    min-height:100dvh;
-    max-width:none;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    max-width:400px;
   }
 
   .card{
     background:var(--white);
-    border-radius:0;
-    padding:36px max(28px, calc(50% - 240px));
-    border:none;
-    box-shadow:none;
+    border-radius:28px;
+    padding:36px 28px;
+    border:3px solid var(--pink);
+    box-shadow: 0 10px 0 var(--pink-soft);
     text-align:center;
     animation: pop-in .45s ease;
-    width:100%;
-    max-width:none;
-    height:100%;
-    min-height:100vh;
-    min-height:100dvh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    overflow-y:auto;
   }
 
   @keyframes pop-in{
@@ -256,17 +236,7 @@
   }
 
   .final-screen.show{
-    display:flex;
-  }
-
-  #step-final{
-    align-items:center;
-  }
-
-  #step-final .sub{
-    font-size:1.1rem;
-    line-height:1.7;
-    max-width:600px;
+    display:block;
   }
 
   .final-emoji{
@@ -420,6 +390,153 @@
   .continue-btn{
     margin-top: 4px;
   }
+
+  /* ---- Vinyl record player (Final screen) ---- */
+  .vinyl-player{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin: 6px auto 18px;
+  }
+
+  .vinyl-wrap{
+    position:relative;
+    width: 190px;
+    height: 190px;
+    margin-bottom: 14px;
+  }
+
+  .vinyl-disc{
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    background:
+      repeating-radial-gradient(circle at center,
+        #2b2b2b 0px, #2b2b2b 2px,
+        #1a1a1a 2px, #1a1a1a 4px);
+    box-shadow: 0 10px 22px rgba(91,58,82,.25), inset 0 0 0 3px rgba(255,255,255,.05);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    animation: spin-vinyl 3.5s linear infinite;
+    animation-play-state: paused;
+  }
+
+  .vinyl-disc.playing{
+    animation-play-state: running;
+  }
+
+  @keyframes spin-vinyl{
+    from{ transform: rotate(0deg); }
+    to{ transform: rotate(360deg); }
+  }
+
+  .vinyl-label{
+    width: 78px;
+    height: 78px;
+    border-radius:50%;
+    background: linear-gradient(135deg, var(--pink), var(--pink-deep));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow: inset 0 0 0 2px rgba(255,255,255,.35);
+    border: 2px solid #111;
+    position: relative;
+  }
+
+  .vinyl-label span{
+    font-size:1.6rem;
+  }
+
+  .album-cover{
+    position:absolute;
+    top:0; left:0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .vinyl-label::before{
+    content:"";
+    position:absolute;
+    top:50%; left:50%;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#1a1a1a;
+    transform: translate(-50%,-50%);
+    z-index:2;
+  }
+
+  .vinyl-fallback{
+    position:absolute;
+    top:0; left:0;
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .vinyl-arm{
+    position:absolute;
+    top:-14px;
+    right:-6px;
+    width: 90px;
+    height: 90px;
+    transform-origin: 88% 8%;
+    transform: rotate(-28deg);
+    transition: transform .5s ease;
+    pointer-events:none;
+  }
+
+  .vinyl-arm.playing{
+    transform: rotate(2deg);
+  }
+
+  .vinyl-arm svg{
+    width:100%;
+    height:100%;
+    filter: drop-shadow(0 3px 4px rgba(0,0,0,.25));
+  }
+
+  .vinyl-controls{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+
+  .vinyl-btn{
+    width: 46px;
+    height: 46px;
+    border-radius:50%;
+    border:none;
+    background: var(--pink-deep);
+    color:white;
+    font-size:1.1rem;
+    cursor:pointer;
+    box-shadow: 0 4px 0 #c94a6c;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition: transform .1s;
+  }
+
+  .vinyl-btn:active{
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #c94a6c;
+  }
+
+  .vinyl-track-name{
+    font-size:.8rem;
+    color:#9c8296;
+    font-weight:600;
+    max-width: 160px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
 </style>
 </head>
 <body>
@@ -449,7 +566,7 @@
   <div class="card hidden" id="step-pin">
     <div class="emoji-row">🔑</div>
     <h1>กรุณากรอก DD/MM/YY ที่เราเจอกันครั้งแรก</h1>
-    <p class="sub">ใส่ PIN 6 หลักเพื่อเข้าสู่หน้าต่อไป</p>
+    <p class="sub">ใส่ PIN 6 หลักเพื่อเข้าสู่ความลับ</p>
     <div class="pin-row" id="pinRow">
       <input type="password" maxlength="1" inputmode="numeric" class="pin-single">
       <input type="password" maxlength="1" inputmode="numeric" class="pin-single">
@@ -503,6 +620,32 @@
     <p class="sub">อยากจะบอกว่า ขอโทษที่เตชินทำตัวงี่เง่า ชอบเหมือนเด็ก เอาแต่ใจ แต่ขอบคุณที่คอยอยู่เตือนกันข้างๆตลอดเลยนะ ขอบคุณที่เข้ามาเป็นความสุขที่สุดในชีวิตของเตชินเลยนะ ขอบคุณที่ดูแลเตชินมาโดยตลอดเลยนะ เตชินสัญญาว่าจะดูแลพี่อิ่มเอมให้ดีที่สุด
   ขอให้อยู่กับเตชินไปนานๆเลยนะ รักอิ่มเอมที่สุดเลยนะ 💖 (ไว้ไปเขาค้อด้วยกันนะ)
     </p>
+
+    <!-- Vinyl record player -->
+    <div class="vinyl-player">
+      <div class="vinyl-wrap">
+        <div class="vinyl-disc" id="vinylDisc">
+          <div class="vinyl-label">
+            <img class="album-cover" src="images/album.jpg" alt="album cover" onerror="this.style.display='none'; this.nextElementSibling.querySelector('span').style.display='block';">
+            <div class="vinyl-fallback"><span style="display:none;">💿</span></div>
+            <div class="vinyl-arm" id="vinylArm">
+              <svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="78" cy="10" r="7" fill="#3a3a3a" stroke="#111" stroke-width="2"/>
+                <rect x="10" y="7" width="70" height="5" rx="2.5" fill="#c9c9c9" transform="rotate(0 78 10)"/>
+                <circle cx="10" cy="9" r="4" fill="#e8b23d" stroke="#111" stroke-width="1.5"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="vinyl-controls">
+        <button class="vinyl-btn" id="vinylToggle" onclick="toggleVinyl()">⏸</button>
+        <div class="vinyl-track-name" id="vinylTrackName">กำลังเล่นเพลง...</div>
+      </div>
+    </div>
+
+    <!-- ใส่ลิงก์เพลง หรือไฟล์เพลงของตัวเองแทนตรงนี้ (เช่น images/song.mp3) -->
+    <audio id="bgMusic" src="images/song.mp3" loop></audio>
   </div>
 
 </div>
@@ -674,9 +817,51 @@
     growYes();
   }, {passive:false});
 
+  // ==== เพลงประกอบ + แผ่นเสียงหมุน ====
+  const bgMusic = document.getElementById('bgMusic');
+  const vinylDisc = document.getElementById('vinylDisc');
+  const vinylArm = document.getElementById('vinylArm');
+  const vinylToggle = document.getElementById('vinylToggle');
+  const vinylTrackName = document.getElementById('vinylTrackName');
+
+  function playVinyl(){
+    vinylDisc.classList.add('playing');
+    vinylArm.classList.add('playing');
+    vinylToggle.textContent = '⏸';
+    const p = bgMusic.play();
+    if(p !== undefined){
+      p.then(()=>{
+        vinylTrackName.textContent = 'ล้มแชมป์ - Tilly Birds x POLYCAT ';
+      }).catch(()=>{
+        // เบราว์เซอร์บล็อก autoplay ให้แสดงปุ่มกดเล่นแทน
+        vinylDisc.classList.remove('playing');
+        vinylArm.classList.remove('playing');
+        vinylToggle.textContent = '▶';
+        vinylTrackName.textContent = 'แตะปุ่มเพื่อเล่นเพลง';
+      });
+    }
+  }
+
+  function pauseVinyl(){
+    bgMusic.pause();
+    vinylDisc.classList.remove('playing');
+    vinylArm.classList.remove('playing');
+    vinylToggle.textContent = '▶';
+    vinylTrackName.textContent = 'หยุดชั่วคราว';
+  }
+
+  function toggleVinyl(){
+    if(bgMusic.paused){
+      playVinyl();
+    } else {
+      pauseVinyl();
+    }
+  }
+
   function sayYes(){
     showStep('step-final');
     launchHearts();
+    playVinyl(); // เริ่มเล่นเพลงทันทีตอนเข้าหน้า final (นับเป็น user gesture จากการกดปุ่ม "ใช่")
   }
 
   function launchHearts(){
