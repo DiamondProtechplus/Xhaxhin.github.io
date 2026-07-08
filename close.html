@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ระบบปิดปรับปรุงชั่วคราว</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Segoe UI', 'Prompt', sans-serif;
+    background: linear-gradient(135deg,#1e3c72,#2a5298);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    text-align:center;
+    padding:20px;
+  }
+  .container {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    border-radius:20px;
+    padding:50px 40px;
+    max-width:500px;
+    width:100%;
+    box-shadow:0 8px 32px rgba(0,0,0,0.3);
+    border:1px solid rgba(255,255,255,0.15);
+  }
+  .logo {
+    width:20%;
+    max-width:90px;
+    min-width:50px;
+    aspect-ratio:1/1;
+    height:auto;
+    margin:0 auto 25px;
+    background:#fff;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:clamp(16px,4vw,36px);
+    font-weight:bold;
+    color:#2a5298;
+    box-shadow:0 4px 15px rgba(0,0,0,0.25);
+    overflow:hidden;
+  }
+  .logo img {
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    border-radius:50%;
+  }
+  h1 { font-size:26px; margin-bottom:15px; }
+  p { font-size:16px; line-height:1.7; opacity:0.9; margin-bottom:10px; }
+  .icon { font-size:50px; margin-bottom:15px; animation: spin 3s linear infinite; display:inline-block; }
+  @keyframes spin { 100% { transform: rotate(360deg); } }
+  .timer {
+    margin-top:25px;
+    font-size:15px;
+    background:rgba(255,255,255,0.12);
+    padding:12px;
+    border-radius:10px;
+  }
+  #countdown { font-weight:bold; font-size:18px; }
+  .footer { margin-top:25px; font-size:13px; opacity:0.6; }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">      <img src='https://i.postimg.cc/8cfQVDsZ/logo.png' alt='logo1'>
+</div>
+    <div class="icon">⚙️</div>
+    <h1>ระบบปิดปรับปรุงชั่วคราว</h1>
+    <p>ขออภัยในความไม่สะดวก ขณะนี้เรากำลังปรับปรุงระบบเพื่อมอบประสบการณ์ที่ดียิ่งขึ้นให้กับท่าน</p>
+    <p>โปรดกลับมาใหม่อีกครั้งในภายหลัง</p>
+    <div class="timer">
+      เวลาโดยประมาณที่จะกลับมาใช้งานได้:<br>
+      <span id="countdown">กำลังคำนวณ...</span>
+    </div>
+    <div class="footer">&copy; 2026 Xhaxhin Production. สงวนลิขสิทธิ์.</div>
+  </div>
+
+<script>
+  // ตั้งเวลาปิดระบบ (ปรับได้ตามต้องการ) - ตัวอย่าง: อีก 3 ชั่วโมงจากตอนนี้
+  const target = new Date().getTime() + (3 * 60 * 60 * 1000);
+
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = target - now;
+
+    if (distance <= 0) {
+      document.getElementById("countdown").innerHTML = "ระบบพร้อมใช้งานแล้ว";
+      return;
+    }
+
+    const hours = Math.floor(distance / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById("countdown").innerHTML =
+      hours + " ชม. " + minutes + " นาที " + seconds + " วินาที";
+  }
+
+  setInterval(updateCountdown, 1000);
+  updateCountdown();
+</script>
+</body>
+</html>
